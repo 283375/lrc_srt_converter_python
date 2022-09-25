@@ -2,16 +2,11 @@ from datetime import timedelta
 
 
 def microseconds_to_timedelta(ms: int):
-    return timedelta(microseconds=int(ms) * 1000)
+    return timedelta(microseconds=ms * 1000)
 
 
 def timedelta_to_microseconds(td: timedelta):
-    return int(
-        '%s%s' % (
-            td.seconds,
-            str(td.microseconds)[0:3].ljust(3, '0')
-        )
-    )
+    return int(f"{td.seconds}{str(td.microseconds)[:3].ljust(3, '0')}")
 
 
 def lrc_time_to_timedelta(lrc_time: str):
@@ -29,8 +24,4 @@ def microseconds_to_lrc_time(ms: int):
     minutes = td.seconds // 60
     seconds = td.seconds % 60
     microseconds = td.microseconds // 1000
-    return '{}:{}.{}'.format(
-        str(minutes).zfill(2),
-        str(seconds).zfill(2),
-        str(microseconds).zfill(3)
-    )
+    return f'{str(minutes).zfill(2)}:{str(seconds).zfill(2)}.{str(microseconds).zfill(3)}'

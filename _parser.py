@@ -12,8 +12,7 @@ def parse_lrc(file_path, file_encoding):
     with open(file_path, 'r', encoding=file_encoding) as lyric:
         lines = lyric.read().splitlines()
         for line in lines:
-            all_time = re.findall(timestamp_regex, line)
-            if all_time:
+            if all_time := re.findall(timestamp_regex, line):
                 for time in all_time:
                     time = time.replace('[', '', 1).replace(']', '', 1)
                     time = str(timedelta_to_microseconds(
@@ -29,16 +28,14 @@ def parse_lrc(file_path, file_encoding):
                             line.replace(''.join(all_time), '')
                         )
 
-    result = {
-        'time_list': sorted(list(set(time_list)), key=int),
-        'lyric_list': lyric_list
-    }
-
     # import json
     # with open('debug_parse_lrc.json', 'w+', encoding='utf-8') as debug_json:
     #     debug_json.write(json.dumps(result, ensure_ascii=False))
 
-    return result
+    return {
+        'time_list': sorted(list(set(time_list)), key=int),
+        'lyric_list': lyric_list,
+    }
 
 
 def parse_srt(file_path, file_encoding):
@@ -52,13 +49,11 @@ def parse_srt(file_path, file_encoding):
             time_list.append(time)
             lyric_list[str(time)] = sub.content.split('\n')
 
-    result = {
-        'time_list': sorted(list(set(time_list)), key=int),
-        'lyric_list': lyric_list
-    }
-
     # import json
     # with open('debug_parse_srt.json', 'w+', encoding='utf-8') as debug_json:
     #     debug_json.write(json.dumps(result, ensure_ascii=False))
 
-    return result
+    return {
+        'time_list': sorted(list(set(time_list)), key=int),
+        'lyric_list': lyric_list,
+    }
