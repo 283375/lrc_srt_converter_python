@@ -50,4 +50,4 @@ if __name__ == '__main__':
                     lrc_encoding=args.lrc_encoding,
                     srt_encoding=args.srt_encoding)
         except Exception as e:
-            print('Error [{}] occured while processing "{}".'.format(str(e), file))
+            print(f'Error [{str(e)}] occured while processing "{file}".')

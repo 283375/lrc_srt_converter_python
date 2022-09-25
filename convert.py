@@ -12,11 +12,7 @@ def lrc2srt(lrc_path, srt_path='', lrc_encoding='utf-8', srt_encoding='utf-8'):
     old_fn[-1] = '.srt'
     new_fn = ''.join(old_fn)
 
-    if not srt_path:
-        srt_path = new_fn
-    else:
-        srt_path = path.join(srt_path, new_fn)
-
+    srt_path = path.join(srt_path, new_fn) if srt_path else new_fn
     subs = []
     for index, time in enumerate(result['time_list']):
         try:
@@ -50,15 +46,8 @@ def srt2lrc(srt_path, lrc_path='', lrc_encoding='utf-8', srt_encoding='utf-8'):
     old_fn[-1] = '.lrc'
     new_fn = ''.join(old_fn)
 
-    if not lrc_path:
-        lrc_path = new_fn
-    else:
-        lrc_path = path.join(lrc_path, new_fn)
-
+    lrc_path = path.join(lrc_path, new_fn) if lrc_path else new_fn
     with open(lrc_path, 'w+', encoding=lrc_encoding) as lrc_file:
         for time in result['time_list']:
             for lyric in result['lyric_list'][str(time)]:
-                lrc_file.write('[{}]{}\n'.format(
-                    microseconds_to_lrc_time(time),
-                    lyric
-                ))
+                lrc_file.write(f'[{microseconds_to_lrc_time(time)}]{lyric}\n')
